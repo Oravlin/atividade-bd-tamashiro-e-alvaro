@@ -34,7 +34,7 @@ data_cadastro_produto timestamp default current_timestamp
 
 create table if not exists tbcategoria(
 	id_categoria int auto_increment primary key, 
-    nome_categoria varchar(100) unique 
+    nome_categoria varchar(100) unique not null
 ) engine=InnoDB;
 
 /* 6. 
@@ -80,7 +80,7 @@ create table if not exists tbpedido_item(
 alter table tbpedido_item add constraint Fkpedido foreign key (id_pedido) references tbpedido (id_pedido) on delete cascade;
 alter table tbpedido_item add constraint Fkproduto foreign key (id_produto) references tbproduto (id_produto) on delete restrict;
 
-
+/*
 -- teste de integridade
 insert into tbcliente (nome_cliente, email_cliente) values ("Enildo Candida Santos", "enildoprofessor@email.com");
 insert into tbcliente (nome_cliente, email_cliente) values ("Nivia Professora Basilides", "nivia@email.com");
@@ -120,13 +120,61 @@ select * from tbproduto;
 select * from tbpedido_item;
 
 -- explicação do comportamento: quando se deleta um cliente e há pedidos registrado no nome dele, será apagado tudo referente
-
+*/
 
 -- evolução real
-alter table tbpedido add column (desconto_pedido decimal(5,2) check (desconto_pedido >= 0 and desconto_pedido <= 100) not null);
+-- alter table tbpedido add column (desconto_pedido decimal(5,2) check (desconto_pedido >= 0 and desconto_pedido <= 100) not null default 0);
+
 -- inserindo pedido_item inválido:
 -- insert into tbpedido_item (id_pedido, id_produto, qtd_pedido, preco_unitario, id_item, desconto_pedido) values (2, 4, 5, 67.69, 4, 101);
 
 -- etapa mercado
 -- o delete on cascade no pedido item é necessário caso um pedido seja apagado. Porque não há mais necessidade de ter um pedido_item
 -- o restrict impede que os produtos sejam apagados caso um pedido referenciando-os for apagado.
+
+-- adicionando mais cliente
+insert into tbcliente (nome_cliente, email_cliente, ativo_cliente)
+	values('Ana Souza', 'ana@email.com', 1),
+		  ('Carla Mendes', 'carla@email.com', 1),
+		  ('Ana Souza', 'ana@gmail.com', 1),
+		  ('Bruno Lima', 'bruno@yahoo.com', 1),
+		  ('Carla Dias', 'carla@gmail.com', 1),
+		  ('Diego Silva', 'diego@outlook.com', 0),
+		  ('Eva Santos', null, 1),
+		  ('Fábio Rocha', 'fabio@gmail.com', 1);
+    
+select * from tbcliente;
+-- inserindo categorias
+describe tbcategoria;
+insert into tbcategoria (nome_categoria)
+	   values('Informática'),
+			 ('Livros'),
+             ('Acessórios');
+select * from tbcategoria;
+
+-- inserindo produtos
+insert into tbproduto (nome_produto, preco_produto, qtd_estoque_produto, FKcategoria)
+			values('Notebook', 4500.00, 10, 1),
+				  ('Mouse Gamer', 150.00, 50, 1),
+                  ('Livro SQL', 90.00, 30, 2),
+                  ('Smartphone', 3200.00, 15, 1);
+select * from tbproduto;
+-- inserindo pedidos
+describe tbpedido;
+insert into tbpedido (id_cliente_fk, valor_pedido)
+			values(1, 4500),
+				  (1, 150),
+                  (2, 3200),
+                  (3, 90),
+                  (3, 500);
+select * from tbpedido;
+
+-- inserindo itens pedido
+describe tbpedido_item;
+insert into tbpedido_item(id_pedido, id_produto, qtd_pedido, preco_unitario)
+			values(1,1,1,4500),
+				  (2,2,1,150),
+                  (3,4,1,3200),
+                  (4,3,1,90),
+                  (5,3,5,100);
+select * from tbpedido_item;
