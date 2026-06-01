@@ -1,4 +1,4 @@
-drop database if exists empresa;
+ drop database if exists empresa;
 
 create database if not exists empresa
   CHARACTER SET utf8mb4
@@ -123,7 +123,7 @@ select * from tbpedido_item;
 */
 
 -- evolução real
--- alter table tbpedido add column (desconto_pedido decimal(5,2) check (desconto_pedido >= 0 and desconto_pedido <= 100) not null default 0);
+alter table tbpedido add column (desconto_pedido decimal(5,2) check (desconto_pedido >= 0 and desconto_pedido <= 100) not null default 0);
 
 -- inserindo pedido_item inválido:
 -- insert into tbpedido_item (id_pedido, id_produto, qtd_pedido, preco_unitario, id_item, desconto_pedido) values (2, 4, 5, 67.69, 4, 101);
@@ -178,3 +178,21 @@ insert into tbpedido_item(id_pedido, id_produto, qtd_pedido, preco_unitario)
                   (4,3,1,90),
                   (5,3,5,100);
 select * from tbpedido_item;
+
+select @@secure_file_priv;
+load data infile 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/cliente.csv'
+into table tbcliente
+character set utf8mb4
+fields terminated by ';'
+lines terminated by '\r\n'
+ignore 1 lines
+(nome_cliente,email_cliente, ativo_cliente, data_cadastro_cliente);
+select * from tbcliente;
+
+select * from tbproduto;
+
+select * from tbpedido;
+
+select * from tbpedido_item;
+
+insert into tbpedido 
