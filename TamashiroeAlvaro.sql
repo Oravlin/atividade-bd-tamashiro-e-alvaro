@@ -195,4 +195,67 @@ select * from tbpedido;
 
 select * from tbpedido_item;
 
-insert into tbpedido 
+-- exercicio 4
+
+start transaction;
+savepoint etapa1;
+insert into tbcategoria (nome_categoria) values
+	('Periféricos'),
+	('Smartphones'),
+	('Componentes'),
+	('Games'),
+	('Impressão');
+savepoint final;
+commit;
+
+-- exercício 5
+
+start transaction;
+savepoint etapa1;
+insert ignore into tbcliente (nome_cliente, email_cliente, ativo_cliente) values
+	('Marcos Oliveira', 'marcos@email.com', 1),
+	('Juliana Costa', 'juliana@email.com', 1),
+	('Ricardo Martins', 'ricardo@gmail.com', 1),
+	('Patrícia Alves', 'patricia@yahoo.com', 1),
+	('Fernando Souza', 'fernando@outlook.com', 1),
+	('Camila Rocha', 'camila@gmail.com', 1),
+	('Lucas Ferreira', 'lucas@email.com', 1),
+	('Renata Lima', 'renata@yahoo.com', 1),
+	('Gustavo Santos', 'gustavo@gmail.com', 0),
+	('Vanessa Mendes', 'vanessa@email.com', 1),
+	('Tiago Ribeiro', 'tiago@outlook.com', 1),
+	('Amanda Carvalho', 'amanda@gmail.com', 1),
+	('Bruno Fernandes', 'bruno@email.com', 1),
+	('Daniela Gomes', 'daniela@yahoo.com', 0),
+	('Eduardo Pereira', 'eduardo@gmail.com', 1),
+	('Flávia Nunes', null, 1),
+	('Henrique Barbosa', 'henrique@email.com', 1),
+	('Isabela Freitas', 'isabela@gmail.com', 1),
+	('João Pedro Silva', 'joaopedro@yahoo.com', 1),
+	('Karen Rodrigues', 'karen@outlook.com', 1);
+
+commit;
+
+select * from tbcliente;
+select * from tbcategoria;
+
+start transaction;
+savepoint etapa1;
+insert into tbproduto (nome_produto, preco_produto, qtd_estoque_produto, FKcategoria) values
+	('Teclado Mecânico RGB', 299.90, 25,4),
+	('Mouse Gamer Pro', 149.9, 40,4),
+	('Webcam Full HD', 249.9, 18,4),
+	('Galaxy S25', 4899, 12, 5),
+	('iPhone 17', 7999, 8, 5),
+	('Memória RAM 16GB', 359.9, 30, 6),
+	('SSD NVMe 1TB', 499.9, 22, 6),
+	('Fonte 650W', 389.9, 15, 6),
+	('Controle Xbox Series', 429.9, 20, 7),
+	('Headset Gamer', 319.9, 28, 7),
+	('Impressora Multifuncional', 899.9, 10, 8),
+	('Toner Compatível', 129.9, 50, 8),
+	('Papel Fotográfico A4', 129.9, 80, 8),
+	('Livro SQL Avançado', 119.9, 35, 2),
+	('Livro Modelagem de Dados', 89.9, 20, 2);
+savepoint etapa2;
+commit;
