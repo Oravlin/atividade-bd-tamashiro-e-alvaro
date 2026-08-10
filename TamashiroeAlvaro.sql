@@ -178,7 +178,7 @@ insert into tbpedido_item(id_pedido, id_produto, qtd_pedido, preco_unitario)
                   (4,3,1,90),
                   (5,3,5,100);
 select * from tbpedido_item;
-
+/*
 select @@secure_file_priv;
 load data infile 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/cliente.csv'
 into table tbcliente
@@ -186,7 +186,7 @@ character set utf8mb4
 fields terminated by ';'
 lines terminated by '\r\n'
 ignore 1 lines
-(nome_cliente,email_cliente, ativo_cliente, data_cadastro_cliente);
+(nome_cliente,email_cliente, ativo_cliente, data_cadastro_cliente);*/
 select * from tbcliente;
 
 select * from tbproduto;
@@ -239,6 +239,7 @@ commit;
 select * from tbcliente;
 select * from tbcategoria;
 
+-- exercicio 6
 start transaction;
 savepoint etapa1;
 insert into tbproduto (nome_produto, preco_produto, qtd_estoque_produto, FKcategoria) values
@@ -259,3 +260,52 @@ insert into tbproduto (nome_produto, preco_produto, qtd_estoque_produto, FKcateg
 	('Livro Modelagem de Dados', 89.9, 20, 2);
 savepoint etapa2;
 commit;
+
+-- exercício prático 7
+start transaction;
+savepoint etapa1;
+-- notebook
+update tbproduto set preco_produto = 4650 where id_produto = 1;
+-- Mouse Gamer
+update tbproduto set preco_produto = 169.9 where id_produto = 2;
+-- smartphone
+update tbproduto set preco_produto = 3399 where id_produto = 4;
+-- livro sql
+update tbproduto set preco_produto = 99.9 where id_produto = 3;
+savepoint etapa2;
+commit;
+
+-- exercício prático 8
+start transaction;
+savepoint inicio;
+-- notebook
+update tbproduto set qtd_estoque_produto = 18 where id_produto = 1;
+savepoint notebook;
+-- mouse gammer
+update tbproduto set qtd_estoque_produto = 65 where id_produto = 2;
+savepoint mouse_gamer;
+-- livro sql
+update tbproduto set qtd_estoque_produto = 42 where id_produto = 3;
+savepoint livro_sql;
+-- smartphone
+update tbproduto set qtd_estoque_produto = 20 where id_produto = 4;
+savepoint smartphone;
+commit;
+
+-- exercício prático 9
+delimiter $$
+create procedure sp_adicionarItemPedido(Vid_pedido, Vid_produto, Vqtd)
+begin
+declare Vpreco_unitario = decimal(8,2);
+set Vpreco_unitario = select preco_produto from tbproduto where id_produto = Vid_produto;
+insert into tbpedido_item(id_pedido, id_produto, qtd_pedido, preco_unitario)
+	 values(Vid_pedido, Vid_produto, Vqtd, Vpreco_unitario);
+update tbpedido set valor_pedido = Vqtd * Vpreco_unitario + valor_pedido;
+end
+delimiter $$;
+
+start transaction;
+savepoint inicio;
+insert into tbpedido(valor_pedido, id_cliente_fk, desconto_pedido)
+	 values(0, 1, 0);
+savepoint 
