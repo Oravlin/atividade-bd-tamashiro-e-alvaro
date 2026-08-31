@@ -1569,13 +1569,12 @@ select * from pedido order by valor desc limit 10;
 -- EXERCÍCIO 24
 -- 24.1
 select * from produto order by id_produto limit 10;
--- 24.2 - errado*
+-- 24.2
 select * from produto order by id_produto limit 10 offset 10;
--- 24.3 - errado*
+-- 24.3
 select * from produto order by id_produto limit 10 offset 20;
--- 24.4 - errado*
+-- 24.4
 select * from produto order by id_produto limit 10 offset 40;
--- *existem itens duplicados
 
 -- EXERCÍCIO 25
 -- 25.1
