@@ -1474,13 +1474,13 @@ select * from produto where estoque <= 10;
 
 -- EXERCÍCIO PRÁTICA 15
 -- 15.1
-select * from produto where preco >500 and estoque < 20 limit 26; -- errado
+select * from produto where preco > 500 and estoque < 20 limit 26;
 -- 15.2
 select * from cliente where ativo = 1 and data_cadastro between '2024-12-31 23:59:59' and '2025-12-31 23:59:59' limit 26;
 -- 15.3
-select * from pedido where valor > 3000 and desconto = 10 limit 26; -- errado
+select * from pedido where valor > 3000 and desconto = 10 limit 26;
 -- 15.4
-select * from produto where estoque > 30 and preco < 300 limit 26; -- errado
+select * from produto where estoque > 30 and preco < 300;
 
 -- EXERCÍCIO PRÁTICO 16
 -- 16.1
@@ -1512,9 +1512,9 @@ select * from cliente where ativo > 0 and email is null;
 -- 18.3
 select * from cliente where ativo < 1 and email is null;
 -- 18.4
-select count(*) from cliente where email is null;
+select count(*) as clientes_sem_email from cliente where email is null;
 -- 18.5
-select count(*) from cliente where not email is null;
+select count(*) as clientes_com_email from cliente where not email is null;
 
 -- EXERCÍCIO PRÁTICO 19
 -- 19.1
@@ -1540,9 +1540,9 @@ select * from cliente where id_cliente in(5,10,15,20,25);
 -- 21.1
 select distinct desconto from pedido;
 -- 21.2
-select distinct ativo from cliente;
+select distinct ativo from cliente order by ativo asc;
 -- 21.3
-select distinct year(data_pedido) from pedido;
+select distinct year(data_pedido) from pedido order by year(data_pedido) asc;
 -- 21.4
 select distinct id_categoria from produto;
 
