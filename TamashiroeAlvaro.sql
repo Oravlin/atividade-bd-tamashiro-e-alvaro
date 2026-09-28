@@ -1633,3 +1633,163 @@ select * from pedido order by valor limit 20;
 select * from cliente order by nome limit 20;
 -- 29.5
 select * from pedido order by data_pedido desc limit 15;
+
+-- EXERCÍCIO 30
+-- 30.1
+select p.id_pedido, p.data_pedido, p.valor, c.nome from pedido as p 
+		inner join cliente as c
+			on p.id_cliente = c.id_cliente;
+-- 30.2
+select p.id_pedido, p.data_pedido, p.valor, c.nome from pedido as p
+		inner join cliente as c
+			on p.id_cliente = c.id_cliente
+			where p.valor > 1000;
+            
+-- EXERCÍCIO 31
+-- 31.1
+select c.id_cliente, c.nome, p.id_pedido, p.data_pedido, p.valor from cliente as c
+		left join pedido as p
+			on c.id_cliente = p.id_cliente;
+-- 31.2
+select c.id_cliente, c.nome, c.email from cliente as c
+		left join pedido as p
+			on p.id_cliente = c.id_cliente
+			where p.id_cliente is null;
+-- EXERCÍCIO 32
+-- 32.1
+select c.id_cliente, c.nome, p.id_pedido, p.valor from pedido as p
+		right join cliente as c
+			on c.id_cliente = p.id_cliente;
+-- 32.2
+select c.id_cliente, c.nome, c.email, p.id_pedido, p.valor from pedido as p
+		right join cliente as c
+			on c.id_cliente = p.id_cliente
+            where c.ativo = 1 and p.id_cliente is null or p.id_cliente is not null;
+
+-- EXERCÍCIO 33
+-- 33.1
+select pe.id_pedido, pi.id_produto, pi.quantidade, pi.preco_unitario from pedido as pe
+		inner join pedido_item as pi
+			on pe.id_pedido = pi.id_pedido;
+-- 33.2
+select pe.id_pedido, pi.id_produto, pi.quantidade, pi.preco_unitario from pedido as pe
+		inner join pedido_item as pi
+			on pe.id_pedido = pi.id_pedido
+            where pi.quantidade > 1;
+
+-- EXERCÍCIO 34
+-- 34.1
+select pe.id_pedido, pr.nome, pi.quantidade, pi.preco_unitario from pedido as pe
+		inner join pedido_item as pi
+        on pe.id_pedido = pi.id_pedido
+        inner join produto as pr
+        on pr.id_produto = pi.id_produto;
+-- 34.2
+select pe.id_pedido, pr.nome, pi.quantidade, pi.preco_unitario from pedido as pe
+		inner join pedido_item as pi
+			on pe.id_pedido = pi.id_pedido
+        inner join produto as pr
+			on pr.id_produto = pi.id_produto
+        where pi.preco_unitario > 1000;
+        
+-- EXERCÍCIO 35
+-- 35.1
+select c.nome, pe.id_pedido, pi.id_produto, pi.quantidade from cliente as c
+		inner join pedido as pe
+			on c.id_cliente = pe.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido;
+
+-- 35.2
+select c.nome, pe.id_pedido, pe.data_pedido, pi.id_produto, pi.quantidade from cliente as c
+		inner join pedido as pe
+			on c.id_cliente = pe.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido
+		where year(pe.data_pedido) = 2026;
+
+-- EXERCÍCIO 36
+-- 36.1
+select c.nome, pe.data_pedido, pr.nome, pi.quantidade, pi.preco_unitario from cliente as c
+		inner join pedido as pe
+			on c.id_cliente = pe.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido
+		inner join produto as pr
+			on pr.id_produto = pi.id_produto;
+-- 36.2
+select c.nome, pe.data_pedido, pr.nome, pi.quantidade, pi.preco_unitario from cliente as c
+		inner join pedido as pe
+			on c.id_cliente = pe.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido
+		inner join produto as pr
+			on pr.id_produto = pi.id_produto
+		where pi.quantidade > 1 and pi.preco_unitario > 500;
+        
+-- EXERCÍCIO 37
+-- 37.1
+select pr.nome, pr.preco, pr.estoque, cat.nome from produto as pr
+		inner join categoria as cat
+			on cat.id_categoria = pr.id_categoria;
+-- 37.2
+select pr.nome, pr.preco, pr.estoque, cat.nome from produto as pr
+		inner join categoria as cat
+			on cat.id_categoria = pr.id_categoria
+		where cat.nome in ('Software', 'Segurança', 'Energia');
+        
+-- EXERCÍCIO 38
+-- 38.1
+select c.nome, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitario from cliente as c
+		inner join pedido as pe
+			on pe.id_cliente = c.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido
+		inner join produto as pr
+			on pr.id_produto = pi.id_produto
+		inner join categoria as cat
+			on cat.id_categoria = pr.id_categoria;
+-- 38.2
+select c.nome, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitario from cliente as c
+		inner join pedido as pe
+			on pe.id_cliente = c.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido
+		inner join produto as pr
+			on pr.id_produto = pi.id_produto
+		inner join categoria as cat
+			on cat.id_categoria = pr.id_categoria
+		where cat.nome = 'Monitores' or cat.nome = 'Software' or cat.nome = 'Fotografia' and c.ativo = 1;
+        
+-- EXERCÍCIO 39
+-- 39.1
+select c.id_cliente, c.nome, c.email from cliente as c
+		left join pedido as pe
+			on pe.id_cliente = c.id_cliente
+		where pe.id_cliente is null;
+-- 39.2
+select cat.id_categoria, cat.nome from categoria as cat
+		left join produto as pr
+			on pr.id_categoria = cat.id_categoria
+		where pr.id_categoria is null;
+        
+-- EXERCÍCIO 40
+-- 40.1
+select c.nome, pe.id_pedido, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitario from cliente as c
+		inner join pedido as pe
+			on pe.id_cliente = c.id_cliente
+		inner join pedido_item as pi
+			on pi.id_pedido = pe.id_pedido
+		inner join produto as pr
+			on pr.id_produto = pi.id_produto
+		inner join categoria as cat
+			on cat.id_categoria = cat.id_categoria
+		order by pe.data_pedido desc limit 50;
+-- 40.2
+select c.id_cliente, c.nome, pe.id_pedido from cliente as c
+		left join pedido as pe
+			on pe.id_cliente = c.id_cliente
+		union
+select c.id_cliente, c.nome, pe.id_pedido from pedido as pe
+		right join cliente as c
+			on c.id_cliente = pe.id_cliente;
