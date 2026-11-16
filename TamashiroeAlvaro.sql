@@ -1524,7 +1524,8 @@ select id_produto, nome, preco, estoque from produto where estoque between 10 an
 -- 19.3
 select id_pedido, id_cliente, valor, desconto from pedido where valor between 2000 and 3000;
 -- 19.4
-select id_cliente, nome, email, data_cadastro from cliente where data_cadastro between '2025-07-01 00:00:00' and '2025-12-31 23:59:59';
+select id_cliente, nome, email, data_cadastro from cliente where data_cadastro 
+between '2025-07-01 00:00:00' and '2025-12-31 23:59:59';
 
 -- EXERCÍCIO PRÁTICO 20
 -- 20.1
@@ -1542,7 +1543,7 @@ select distinct desconto from pedido;
 -- 21.2
 select distinct ativo from cliente order by ativo asc;
 -- 21.3
-select distinct year(data_pedido) from pedido order by year(data_pedido) asc;
+select distinct year(data_pedido) as ano from pedido order by year(data_pedido) asc;
 -- 21.4
 select distinct id_categoria from produto;
 
@@ -1554,7 +1555,7 @@ select id_produto, nome, preco, estoque from produto order by preco desc limit 1
 -- 22.3
 select id_pedido, id_cliente, data_pedido, valor from pedido order by data_pedido desc limit 20;
 -- 22.4
-select id_produto, nome, preco, estoque, id_categoria from produto order by id_categoria, nome asc;
+select id_produto, nome, preco, estoque, id_categoria from produto order by id_categoria, nome asc limit 20;
 
 -- EXERCÍCIO 23
 -- 23.1
@@ -1578,13 +1579,15 @@ select id_produto, nome, preco, estoque from produto order by id_produto limit 1
 
 -- EXERCÍCIO 25
 -- 25.1
-select id_cliente, nome, email, ativo from cliente where nome like 'M%' and ativo = 1 limit 15;
+select id_cliente, nome, email, ativo from cliente where nome like 'M%' and ativo = 1 order by nome limit 15;
 -- 25.2
 select id_produto, nome, preco, estoque from produto where estoque > 30 and preco between 200 and 800;
 -- 25.3
-select id_pedido, id_cliente, valor, desconto from pedido where valor > 1000 and desconto in(10,20) order by valor desc limit 20;
+select id_pedido, id_cliente, valor, desconto from pedido where valor > 1000 and desconto in(10,20) 
+order by valor desc limit 20;
 -- 25.4
-select id_cliente, nome, email, data_cadastro from cliente where email like '%gmail.com' and data_cadastro between '2024-12-31 23:59:59' and '2025-12-31 23:59:59';
+select id_cliente, nome, email, data_cadastro from cliente where email like '%gmail.com' and data_cadastro 
+between '2024-12-31 23:59:59' and '2025-12-31 23:59:59' order by email;
 
 -- EXERCÍCIO 26
 -- 26.1
@@ -1608,7 +1611,7 @@ select id_pedido, id_cliente, valor, desconto from pedido where desconto = 0 ord
 -- 27.4
 select id_produto, nome, preco, estoque from produto where preco > 3000 order by preco desc;
 -- 27.5
-select * from cliente where ativo = 0 order by data_cadastro desc;
+select * from cliente where ativo = 0 order by data_cadastro desc limit 15;
 
 -- EXERCÍCIO 28
 -- 28.1
@@ -1616,11 +1619,13 @@ select id_cliente, nome, email from cliente where email like '%gmail.com' order 
 -- 28.2
 select id_cliente, nome, email from cliente where email like '%outlook.com' order by nome limit 20;
 -- 28.3
-select id_cliente, nome, email from cliente where nome like 'S%';
+select id_cliente, nome, email from cliente where nome like 'S%' order by nome;
 -- 28.4
-select id_cliente, nome, email, data_cadastro from cliente where year(data_cadastro) = 2026 order by data_cadastro desc limit 20;
+select id_cliente, nome, email, data_cadastro from cliente where year(data_cadastro) = 2026 
+order by data_cadastro desc limit 20;
 -- 28.5
-select id_cliente, nome, email, ativo from cliente where nome like 'A%' or nome like 'B%' and ativo = 1 order by nome;
+select id_cliente, nome, email, ativo from cliente where nome like 'A%' or nome like 'B%' and ativo = 1 
+order by nome;
 
 -- EXERCÍCIO 29
 -- 29.1
@@ -1628,11 +1633,11 @@ select id_produto, nome, preco, estoque from produto order by preco asc limit 20
 -- 29.2
 select id_produto, nome, preco, estoque from produto order by estoque desc limit 20;
 -- 29.3
-select * from pedido order by valor desc limit 20;
+select id_pedido, id_cliente, data_pedido, valor, desconto from pedido order by valor desc limit 20;
 -- 29.4
 select id_cliente, nome, email, ativo from cliente order by nome limit 20;
 -- 29.5
-select * from pedido order by data_pedido desc limit 15;
+select id_pedido, id_cliente, data_pedido, valor, desconto from pedido order by data_pedido desc limit 15;
 
 -- EXERCÍCIO 30
 -- 30.1
