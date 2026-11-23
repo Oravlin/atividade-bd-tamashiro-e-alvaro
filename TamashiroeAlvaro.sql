@@ -1660,6 +1660,7 @@ select c.id_cliente, c.nome, c.email from cliente as c
 		left join pedido as p
 			on p.id_cliente = c.id_cliente
 			where p.id_cliente is null;
+
 -- EXERCÍCIO 32
 -- 32.1
 select c.id_cliente, c.nome, p.id_pedido, p.valor from pedido as p
@@ -1711,7 +1712,8 @@ select c.nome, pe.id_pedido, pe.data_pedido, pi.id_produto, pi.quantidade from c
 			on c.id_cliente = pe.id_cliente
 		inner join pedido_item as pi
 			on pi.id_pedido = pe.id_pedido
-		where year(pe.data_pedido) = 2026;
+		where year(pe.data_pedido) = 2026
+        order by c.id_cliente, pe.id_pedido;
 
 -- EXERCÍCIO 36
 -- 36.1
@@ -1745,7 +1747,7 @@ select pr.nome, pr.preco, pr.estoque, cat.nome from produto as pr
         
 -- EXERCÍCIO 38
 -- 38.1
-select c.nome, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitario from cliente as c
+select c.nome, pe.data_pedido, pr.nome, cat.nome as categoria, pi.quantidade, pi.preco_unitario from cliente as c
 		inner join pedido as pe
 			on pe.id_cliente = c.id_cliente
 		inner join pedido_item as pi
@@ -1753,7 +1755,8 @@ select c.nome, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitar
 		inner join produto as pr
 			on pr.id_produto = pi.id_produto
 		inner join categoria as cat
-			on cat.id_categoria = pr.id_categoria;
+			on cat.id_categoria = pr.id_categoria
+            order by cat.nome;
 -- 38.2
 select c.nome, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitario from cliente as c
 		inner join pedido as pe
@@ -1780,7 +1783,7 @@ select cat.id_categoria, cat.nome from categoria as cat
         
 -- EXERCÍCIO 40
 -- 40.1
-select c.nome, pe.id_pedido, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, pi.preco_unitario from cliente as c
+select c.nome, pe.id_pedido, pe.data_pedido, pr.nome as produto, cat.nome as categoria, pi.quantidade, pi.preco_unitario from cliente as c
 		inner join pedido as pe
 			on pe.id_cliente = c.id_cliente
 		inner join pedido_item as pi
@@ -1788,8 +1791,8 @@ select c.nome, pe.id_pedido, pe.data_pedido, pr.nome, cat.nome, pi.quantidade, p
 		inner join produto as pr
 			on pr.id_produto = pi.id_produto
 		inner join categoria as cat
-			on cat.id_categoria = cat.id_categoria
-		order by pe.data_pedido desc limit 50;
+			on cat.id_categoria = pr.id_categoria
+		order by pe.data_pedido desc, pe.id_pedido desc limit 50;
 -- 40.2
 select c.id_cliente, c.nome, pe.id_pedido from cliente as c
 		left join pedido as pe
